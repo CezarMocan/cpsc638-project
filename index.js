@@ -10,7 +10,7 @@ app.set('view engine', 'jade'); // use either jade or ejs
 app.use(express.static('public'));
 
 // Set server port
-app.listen(4000);
+app.listen(5678);
 console.log('server is running');
 
 app.get('/', function(req, res) {
