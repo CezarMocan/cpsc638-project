@@ -28,7 +28,7 @@ html
 
 	body		
 		h1.greeting Submit a link
-		form.submitLinkForm(action='/submitPost')
+		form.submitLinkForm(method='post' action='/submitPost')
 			div.link
 				label.linkLabel Link: 
 				input(type='text' name='link')

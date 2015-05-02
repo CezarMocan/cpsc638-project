@@ -43,7 +43,7 @@ app.post('/submitPost', function (request, response) {
 
   dbService.addTextmoji(link, tags, function(result) {
     console.log(result);
-    response.send(result);
+    response.render('index');
   });
 })
 
