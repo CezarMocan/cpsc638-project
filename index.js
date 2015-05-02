@@ -10,8 +10,10 @@ app.set('view engine', 'jade'); // use either jade or ejs
 app.use(express.static('public'));
 
 // Set server port
-app.listen(5678);
-console.log('server is running');
+app.set('port', (process.env.PORT || 5000));
+app.listen(app.get('port'), function() {
+  console.log("Node app is running at localhost:" + app.get('port'));
+});
 
 app.get('/', function(req, res) {
   res.render('index');
