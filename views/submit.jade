@@ -28,13 +28,14 @@ html
 
 	body		
 		h1.greeting Submit a link
+		form.submitLinkForm(action='/submitPost')
 		div.link
 			label.linkLabel Link: 
-			input#linkInput
+			input(type='text' name='link')
 		p
 		div.tag
 			label.linkTag Category: 
-			input#tagInput
+			input(type='text' name='tags')
 		p
-		div.submit(onclick='submitLink()')
-			button.submitButton Submit
+		div.submit
+			input.submitButton(type='submit' value='Submit')

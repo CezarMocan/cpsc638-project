@@ -31,8 +31,8 @@ app.get('/submit', function(req, res) {
 });
 
 app.post('/submitPost', function (request, response) {  
-  var link = request.body.link;  
-  var tags = request.body.tags;  
+  var link = request.query.link;  
+  var tags = request.query.tags;  
 
   console.log(link);
 
