@@ -16,7 +16,7 @@ html
 					type: 'POST',
 					async: true,
 					dataType: 'json',					
-					data: {"link": document.getElementById("linkInput").value, "tag": document.getElementById("tagInput").value},
+					data: {"link": document.getElementById("linkInput").value, "tags": [document.getElementById("tagInput").value]},
 					success: function(response) {
 						console.log("success");						
 					},
