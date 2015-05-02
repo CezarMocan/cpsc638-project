@@ -34,7 +34,6 @@ app.post('/submitPost', function (request, response) {
   var link = request.body.link;  
   var tags = request.body.tags;  
 
-  console.log(request);
   console.log(link);
 
   if (isNullOrUndefined(link))
@@ -43,6 +42,7 @@ app.post('/submitPost', function (request, response) {
     tags = [];
 
   dbService.addTextmoji(link, tags, function(result) {
+    console.log(result);
     response.send(result);
   });
 })

@@ -18,7 +18,7 @@ html
 					dataType: 'json',					
 					data: {"link": document.getElementById("linkInput").value, "tags": [document.getElementById("tagInput").value]},
 					success: function(response) {
-						console.log("success");						
+						console.log(response);						
 					},
 					error: function(xhr) {
 						console.log("Error");
