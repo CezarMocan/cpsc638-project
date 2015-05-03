@@ -163,9 +163,9 @@ function addTextmoji(emoji, tags, callbackFun) {
   });  	
 }
 
-function getTopEmojisNoTag(resultsLimit, callbackFun) {
+function getTopLinksNoTag(resultsLimit, callbackFun) {
 	pg.connect(process.env.DATABASE_URL, function(err, client, done) {
-		client.query('SELECT emoji_id, usage_count FROM emoji_submission ORDER BY usage_count DESC LIMIT ($1)', [resultsLimit], function(err, result) {
+		client.query('SELECT link_id, usage_count FROM link_submission ORDER BY usage_count DESC LIMIT ($1)', [resultsLimit], function(err, result) {
 			done();
 			if (err) {
 				console.error(err);
@@ -177,9 +177,9 @@ function getTopEmojisNoTag(resultsLimit, callbackFun) {
 	});
 }
 
-function getTopEmojisWithTag(resultsLimit, tag, callbackFun) {
+function getTopLinksWithTag(resultsLimit, tag, callbackFun) {
 	pg.connect(process.env.DATABASE_URL, function(err, client, done) {
-		client.query('SELECT emoji_tag.emoji_id, tag, usage_count FROM emoji_submission, emoji_tag WHERE emoji_submission.emoji_id = emoji_tag.emoji_id AND tag=($1) ORDER BY usage_count DESC LIMIT ($2)', [tag, resultsLimit], function(err, result) {
+		client.query('SELECT link_tag.link_id, tag, usage_count FROM link_submission, link_tag WHERE link_submission.link_id = link_tag.emoji_id AND tag=($1) ORDER BY usage_count DESC LIMIT ($2)', [tag, resultsLimit], function(err, result) {
 			done();
 			if (err) {
 				console.error(err);

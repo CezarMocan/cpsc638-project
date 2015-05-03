@@ -23,7 +23,7 @@ var pg = require('pg');
 var dbService = require('./DBOperations.js');
 
 app.get('/', function(req, res) {
-  res.render('index');
+  app.redirect('/top')
 });
 
 app.get('/submit', function(req, res) {
@@ -34,17 +34,31 @@ app.post('/submitPost', function (request, response) {
   var link = request.body.link;  
   var tags = request.body.tags;  
 
-  console.log(link);
-
   if (isNullOrUndefined(link))
     response.send(dbService.DEFAULT_ERROR_MSG);
   if (isNullOrUndefined(tags))
     tags = [];
 
   dbService.addTextmoji(link, tags, function(result) {
-    console.log(result);
     response.render('index');
   });
+})
+
+app.get('/top', function (request, response) {
+  var tag = request.query.tag;
+  var resultsLimit = 100;
+
+  if (isNullOrUndefined(tag)) {
+    dbService.getTopLinksNoTag(resultsLimit, function(result) {
+      console.log(result);
+      response.send(result);
+    });
+  } else {
+    dbService.getTopLinksWithTag(resultsLimit, tag, function(result) {
+      console.log(result);
+      response.send(result);
+    });
+  }
 })
 
 function areNullOrUndefined(objs) {
