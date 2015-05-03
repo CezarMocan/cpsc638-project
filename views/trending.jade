@@ -1,0 +1,32 @@
+html
+	head
+		meta(charset="utf-8")
+		meta(name="viewport",content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no")
+		meta(http-equiv="X-UA-Compatible",content="IE=edge")    
+		link(rel='stylesheet',href='http://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css')		
+		script(type='text/javascript',src='http://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.1/jquery.min.js')
+		script(type='text/javascript',src='http://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js')		
+		style(type="text/css"): include ranking.css
+
+	body		
+
+		p You are logged in as #{user}
+		div.page-title 
+			h3 #{pageTitle}
+			h5 #{pageDescription}
+			a(href="/user/#{user}/top") top 
+			&nbsp;
+			a(href="/user/#{user}/new") new 
+			&nbsp;
+			a(href="/user/#{user}/trending") trending 
+			&nbsp;			
+			a(href="/user/#{user}/submit") submit 
+			&nbsp;
+
+		table						
+			tbody
+				for link in ranking
+					tr.item 
+						td.score #{link.score}
+						td.link-id 
+							a(href="#{link.link_id}") #{link.link_id}

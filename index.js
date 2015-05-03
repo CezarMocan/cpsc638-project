@@ -117,12 +117,12 @@ app.get('/user/:userId/trending', function (request, response) {
   if (isNullOrUndefined(tag)) {
     dbService.getTrendingLinksNoTag(resultsLimit, function(result) {
       console.log(result);
-      response.render('ranking', {'currPage': 'trending', 'ranking': result, 'pageTitle': 'Trending links', 'pageDescription': 'Popular links submitted within the last 7 hours, with votes weighted according to how recent they are', 'user':request.params.userId});
+      response.render('trending', {'currPage': 'trending', 'ranking': result, 'pageTitle': 'Trending links', 'pageDescription': 'Popular links submitted within the last 7 hours, with votes weighted according to how recent they are', 'user':request.params.userId});
     });    
   } else {
     dbService.getTrendingLinksWithTag(resultsLimit, tag, function(result) {
       console.log(result);
-      response.render('ranking', {'currPage': 'trending', 'ranking': result, 'pageTitle': 'Trending links', 'pageDescription': 'Popular links submitted within the last 7 hours, with votes weighted according to how recent they are', 'user':request.params.userId});
+      response.render('trending', {'currPage': 'trending', 'ranking': result, 'pageTitle': 'Trending links', 'pageDescription': 'Popular links submitted within the last 7 hours, with votes weighted according to how recent they are', 'user':request.params.userId});
     });    
   }
 })

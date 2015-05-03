@@ -265,7 +265,7 @@ function getNewLinksNoTag(createdAfter, resultsLimit, callbackFun) {
 
 function getNewLinksWithTag(createdAfter, resultsLimit, tag, callbackFun) {
 	pg.connect(process.env.DATABASE_URL, function(err, client, done) {
-		client.query('SELECT link_tag.link_id, tag, usage_count, creation_date FROM link_submission, link_tag WHERE link_submission.link_id = link_tag.link_id AND tag=($1) ORDER BY creation_date DESC LIMIT ($2)', [category, resultsLimit], function(err, result) {		
+		client.query('SELECT link_tag.link_id, tag, usage_count, creation_date FROM link_submission, link_tag WHERE link_submission.link_id = link_tag.link_id AND tag=($1) ORDER BY creation_date DESC LIMIT ($2)', [tag, resultsLimit], function(err, result) {		
 			done();
 			if (err) {
 				console.error(err);
