@@ -21,13 +21,13 @@ html
 			-var hour = a.getHours();
 			-var min = a.getMinutes();
 			-var sec = a.getSeconds();
-			-var time = month + ' ' + day + ', ' + year + ' ' + hour + ':' + min + ':' + sec ;
+			-var time = month + ' ' + date + ', ' + year + ' ' + hour + ':' + min + ':' + sec ;
 			-return time;
 		-}
 
 		div.page-title 
 			h2 #{pageTitle}
-			h3 #{pageDescription}
+			h5 #{pageDescription}
 		table						
 			tbody
 				for link in ranking
