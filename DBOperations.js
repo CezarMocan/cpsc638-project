@@ -251,8 +251,8 @@ function getNewEmojisWithTag(createdAfter, resultsLimit, tag, callbackFun) {
 
 exports.getTimestamp = getTimestamp;
 exports.addTextmoji = addTextmoji;
-exports.getTopEmojisNoTag = getTopEmojisNoTag;
-exports.getTopEmojisWithTag = getTopEmojisWithTag;
+exports.getTopLinksNoTag = getTopLinksNoTag;
+exports.getTopLinksWithTag = getTopLinksWithTag;
 exports.getTrendingEmojisNoTag = getTrendingEmojisNoTag;
 exports.getTrendingEmojisWithTag = getTrendingEmojisWithTag;
 exports.getNewEmojisNoTag = getNewEmojisNoTag;
