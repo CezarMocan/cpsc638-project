@@ -71,12 +71,12 @@ app.get('/new', function (request, response) {
   if (isNullOrUndefined(tag)) {
     dbService.getNewLinksNoTag(createdAfter, resultsLimit, function(result) {
       console.log(result);
-      response.render('ranking', {'ranking': result, 'pageTitle': 'New links', 'pageDescription': 'Top voted links submitted within the last hour'});
+      response.render('ranking', {'ranking': result, 'pageTitle': 'New links', 'pageDescription': 'Most recently submitted links'});
     });
   } else {
     dbService.getNewLinksWithTag(createdAfter, resultsLimit, tag, function(result) {
       console.log(result);
-      response.render('ranking', {'ranking': result, 'pageTitle': 'New links', 'pageDescription': 'Top voted links submitted within the last hour'});
+      response.render('ranking', {'ranking': result, 'pageTitle': 'New links', 'pageDescription': 'Most recently submitted links'});
     });
   }
 })
