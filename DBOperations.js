@@ -255,6 +255,8 @@ function getNewLinksWithTag(createdAfter, resultsLimit, tag, callbackFun) {
 }
 
 
+exports.addUser = addUser;
+exports.checkUser = checkUser;
 exports.getTimestamp = getTimestamp;
 exports.addTextmoji = addTextmoji;
 exports.getTopLinksNoTag = getTopLinksNoTag;
