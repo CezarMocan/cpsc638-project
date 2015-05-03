@@ -1,0 +1,38 @@
+html
+	head
+		meta(charset="utf-8")
+		meta(name="viewport",content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no")
+		meta(http-equiv="X-UA-Compatible",content="IE=edge")    
+		link(rel='stylesheet',href='http://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css')		
+		script(type='text/javascript',src='http://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.1/jquery.min.js')
+		script(type='text/javascript',src='http://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js')		
+		style(type="text/css"): include ranking.css
+
+	body		
+		div.page-title 
+			h2 #{user}, you have already voted this link!
+			a(href="/user/#{user}/top") top 
+			&nbsp;
+			a(href="/user/#{user}new") new 
+			&nbsp;
+			a(href="/user/#{user}trending") trending 
+			&nbsp;			
+			a(href="/user/#{user}submit") submit 
+			&nbsp;
+
+		table						
+			tbody
+				for link in ranking
+					tr.item 
+						td.upvote 
+							form(id="#{link.creation_date}" method="post" action="/upvote")
+								input(type="hidden" name="currPage" value="#{currPage}")
+								input(type="hidden" name="link" value="#{link.link_id}")
+								a(href='javascript:{}' onclick="document.getElementById('#{link.creation_date}').submit();") +
+						td.usage-count #{link.usage_count}
+						td.link-id 
+							a(href="#{link.link_id}") #{link.link_id}
+					tr.created
+						td.empty
+						td.empty
+						td.submitted Submitted on #{timeConverter(link.creation_date)}
