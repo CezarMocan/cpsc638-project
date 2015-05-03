@@ -26,8 +26,11 @@ html
 		-}
 
 		div.page-title 
-			h2 #{pageTitle}
+			h3 #{pageTitle}
 			h5 #{pageDescription}
+			a(href="/top") top
+			a(href="/new") new
+			a(href="/submit") submit
 		table						
 			tbody
 				for link in ranking
