@@ -10,9 +10,10 @@ html
 
 	body		
 		table
-		for link in ranking
-			tr.item 
-				td.upvote 
-					a(href="/submit") +
-				td.usage-count #{link.usage_count}
-				td.link-id #{link.link_id}
+			tbody
+				for link in ranking
+					tr.item 
+						td.upvote 
+							a(href="/submit") +
+						td.usage-count #{link.usage_count}
+						td.link-id #{link.link_id}
