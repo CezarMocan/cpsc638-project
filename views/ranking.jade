@@ -42,7 +42,10 @@ html
 				for link in ranking
 					tr.item 
 						td.upvote 
-							a(href="/upvote?currPage=#{currPage}&link=#{link.link_id}") +
+							form(method="post" action="/upvote")
+								input(type="hidden" name="currPage" value="#{currPage}")
+								input(type="hidden" name="link" value="#{link.link_id}")
+								a(href="javascript: submitForm();") +
 						td.usage-count #{link.usage_count}
 						td.link-id 
 							a(href="#{link.link_id}") #{link.link_id}
