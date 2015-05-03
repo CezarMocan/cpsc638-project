@@ -36,6 +36,9 @@ app.post('/submitPost', function (request, response) {
   var link = request.body.link;  
   var tags = request.body.tags;  
 
+  if (link.indexOf("http://") != 0 && link.indexOf("https://") != 0)
+    link = "http://" + link;
+
   if (isNullOrUndefined(link))
     response.send(dbService.DEFAULT_ERROR_MSG);
   if (isNullOrUndefined(tags))
