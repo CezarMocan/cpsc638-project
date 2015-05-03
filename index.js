@@ -88,7 +88,7 @@ app.post('/user/:userId/submitPost', function (request, response) {
   if (isNullOrUndefined(tags))
     tags = [];
 
-  dbService.addTextmoji(link, tags, function(result) {
+  dbService.addLink(link, tags, function(result) {
     response.redirect('/user/' + user + '/new');
   });
 })
@@ -109,6 +109,24 @@ app.get('/user/:userId/top', function (request, response) {
     });
   }
 })
+
+app.get('/user/:userId/trending', function (request, response) {
+  var tag = request.query.tag;
+  var resultsLimit = 100;
+
+  if (isNullOrUndefined(tag)) {
+    dbService.getTrendingLinksNoTag(resultsLimit, function(result) {
+      console.log(result);
+      response.render('ranking', {'currPage': 'top', 'ranking': result, 'pageTitle': 'Top links', 'pageDescription': 'All-time top voted links', 'user':request.params.userId});
+    });    
+  } else {
+    dbService.getTrendingLinksWithTag(resultsLimit, tag, function(result) {
+      console.log(result);
+      response.render('ranking', {'currPage': 'top', 'ranking': result, 'pageTitle': 'Top links', 'pageDescription': 'All-time top voted links', 'user':request.params.userId});
+    });    
+  }
+})
+
 
 app.get('/user/:userId/new', function (request, response) {
   var tag = request.query.tag;

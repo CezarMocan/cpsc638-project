@@ -2,11 +2,6 @@ var pg = require('pg');
 
 var DEFAULT_ERROR_MSG = "ERROR";
 var DEFAULT_SUCCESS_MSG = "SUCCESS";
-// This table will be used in order to retrieve TOP & NEW
-var DB_TABLE_EMOJI_SUBMISSION = "emoji_submission"
-// This table will be used in order to retrieve TRENDING
-var DB_TABLE_EMOJI_TRENDING = "emoji_trending"
-var DB_TABLE_EMOJI_USER = "emoji_user"
 
 exports.DEFAULT_ERROR_MSG = DEFAULT_ERROR_MSG;
 exports.DEFAULT_SUCCESS_MSG = DEFAULT_SUCCESS_MSG;
@@ -98,12 +93,7 @@ function actuallyUpvote(user, link, count, callbackFun) {
 }
 
 function upvote(user, link, count, callbackFun) {
-  console.log(user);
-  console.log(link);
-
   pg.connect(process.env.DATABASE_URL, function(err, client, done) {
-  	console.log(user);
-  	console.log(link);
 	client.query('SELECT user_id FROM user_upvotes WHERE user_id=($1) AND link_id=($2)', [user, link], function(err, result) {		
 		if (err) {			
 			done();
@@ -126,32 +116,6 @@ function upvote(user, link, count, callbackFun) {
 		}
 	});
   });
-}
-
-function addTextmojiTags(emoji, tags, callbackFun) {
-	// Build query string
-	var queryString = 'INSERT INTO link_tag VALUES ';
-	for (var i = 0; i < tags.length; i++) {
-		if (i != 0) { 
-			queryString += ', ';
-		}
-		queryString += '(';
-		queryString = queryString + '\'' + emoji + '\', \'' + tags[i] + '\')';
-	}
-	
-	// Make insert query
-  pg.connect(process.env.DATABASE_URL, function(err, client, done) {
-    client.query(queryString, [], function(err, result) {  
-    	done();
-    	if (err) {
-    		console.error(err);
-    		callbackFun(DEFAULT_ERROR_MSG);
-    	} else {
-    		callbackFun('Great success! ' + emoji);
-    	}
-    });
-  });    
-
 }
 
 function addUser(user, pass, callbackFun) {
@@ -186,17 +150,43 @@ function checkUser(user, pass, callbackFun) {
 	});
 }
 
-function addTextmoji(emoji, tags, callbackFun) {
+function addLinkTags(link, tags, callbackFun) {
+	// Build query string
+	var queryString = 'INSERT INTO link_tag VALUES ';
+	for (var i = 0; i < tags.length; i++) {
+		if (i != 0) { 
+			queryString += ', ';
+		}
+		queryString += '(';
+		queryString = queryString + '\'' + link + '\', \'' + tags[i] + '\')';
+	}
+	
+	// Make insert query
+  pg.connect(process.env.DATABASE_URL, function(err, client, done) {
+    client.query(queryString, [], function(err, result) {  
+    	done();
+    	if (err) {
+    		console.error(err);
+    		callbackFun(DEFAULT_ERROR_MSG);
+    	} else {
+    		callbackFun('Great success! ' + link);
+    	}
+    });
+  });    
+
+}
+
+function addLink(link, tags, callbackFun) {
 	var timestamp = getTimestamp();
   pg.connect(process.env.DATABASE_URL, function(err, client, done) {
-    client.query('INSERT INTO link_submission VALUES($1, $2, $3)', [emoji, 0, timestamp], function(err, result) {      
+    client.query('INSERT INTO link_submission VALUES($1, $2, $3)', [link, 0, timestamp], function(err, result) {      
     	done();
       if (err) {         
         console.error(err); 
         callbackFun(DEFAULT_ERROR_MSG); 
       } else {
-      	addTextmojiTags(emoji, tags, callbackFun);
-        //callbackFun('Great success! ' + emoji);
+      	addLinkTags(link, tags, callbackFun);
+        //callbackFun('Great success! ' + link);
       }
     });
   });  	
@@ -218,7 +208,7 @@ function getTopLinksNoTag(resultsLimit, callbackFun) {
 
 function getTopLinksWithTag(resultsLimit, tag, callbackFun) {
 	pg.connect(process.env.DATABASE_URL, function(err, client, done) {
-		client.query('SELECT link_tag.link_id, tag, usage_count, creation_date FROM link_submission, link_tag WHERE link_submission.link_id = link_tag.emoji_id AND tag=($1) ORDER BY usage_count DESC LIMIT ($2)', [tag, resultsLimit], function(err, result) {
+		client.query('SELECT link_tag.link_id, tag, usage_count, creation_date FROM link_submission, link_tag WHERE link_submission.link_id = link_tag.link_id AND tag=($1) ORDER BY usage_count DESC LIMIT ($2)', [tag, resultsLimit], function(err, result) {
 			done();
 			if (err) {
 				console.error(err);
@@ -230,9 +220,9 @@ function getTopLinksWithTag(resultsLimit, tag, callbackFun) {
 	});
 }
 
-function getTrendingEmojisNoTag(resultsLimit, callbackFun) {
+function getTrendingLinksNoTag(resultsLimit, callbackFun) {
 	pg.connect(process.env.DATABASE_URL, function(err, client, done) {
-		client.query('SELECT emoji_id, score FROM emoji_trending_scores ORDER BY score DESC LIMIT ($1)', [resultsLimit], function(err, result) {
+		client.query('SELECT link_id, score FROM link_trending_scores ORDER BY score DESC LIMIT ($1)', [resultsLimit], function(err, result) {
 			done();
 			if (err) {
 				console.error(err);
@@ -244,9 +234,9 @@ function getTrendingEmojisNoTag(resultsLimit, callbackFun) {
 	});
 }
 
-function getTrendingEmojisWithTag(resultsLimit, tag, callbackFun) {
+function getTrendingLinksWithTag(resultsLimit, tag, callbackFun) {
 	pg.connect(process.env.DATABASE_URL, function(err, client, done) {		
-		client.query('SELECT emoji_tag.emoji_id, tag, score FROM emoji_trending_scores, emoji_tag WHERE emoji_trending_scores.emoji_id = emoji_tag.emoji_id AND tag=($1) ORDER BY score DESC LIMIT ($2)', [tag, resultsLimit], function(err, result) {
+		client.query('SELECT link_tag.link_id, tag, score FROM link_trending_scores, link_tag WHERE link_trending_scores.link_id = link_tag.link_id AND tag=($1) ORDER BY score DESC LIMIT ($2)', [tag, resultsLimit], function(err, result) {
 			done();
 			if (err) {
 				console.error(err);
@@ -291,11 +281,11 @@ function getNewLinksWithTag(createdAfter, resultsLimit, tag, callbackFun) {
 exports.addUser = addUser;
 exports.checkUser = checkUser;
 exports.getTimestamp = getTimestamp;
-exports.addTextmoji = addTextmoji;
+exports.addLink = addLink;
 exports.getTopLinksNoTag = getTopLinksNoTag;
 exports.getTopLinksWithTag = getTopLinksWithTag;
-exports.getTrendingEmojisNoTag = getTrendingEmojisNoTag;
-exports.getTrendingEmojisWithTag = getTrendingEmojisWithTag;
+exports.getTrendingLinksNoTag = getTrendingLinksNoTag;
+exports.getTrendingLinksWithTag = getTrendingLinksWithTag;
 exports.getNewLinksNoTag = getNewLinksNoTag;
 exports.getNewLinksWithTag = getNewLinksWithTag;
 exports.upvote = upvote;
