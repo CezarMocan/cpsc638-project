@@ -34,11 +34,10 @@ function getDay() {
 	return Math.floor(getTimestamp() / 60 / 60 / 24);
 }
 
-function upvote(link, count, callbackFun) {
+function actuallyUpvote(user, link, count, callbackFun) {
   var timestamp = getTimestamp();
   // Day since epoch
   var day = getDay();
-
   pg.connect(process.env.DATABASE_URL, function(err, client, done) {
     client.query('SELECT usage_count FROM link_submission WHERE link_id=($1)', [link], function(err, result) {
       if (err) { 
@@ -95,6 +94,31 @@ function upvote(link, count, callbackFun) {
 				}
       }
     });
+  });
+}
+
+function upvote(user, link, count, callbackFun) {
+  pg.connect(process.env.DATABASE_URL, function(err, client, done) {
+	client.query('SELECT user_id FROM user_upvotes WHERE used_id=($1) AND link_id=($2)', [user, link], function(err, result) {		
+		if (err) {			
+			done();
+			console.error(err);
+			callbackFun(DEFAULT_ERROR_MSG);
+		} else {
+			if (result.rows.length == 0) {
+				client.query('INSERT INTO user_upvotes VALUES ($1, $2)', [user, link], function(err, result) {
+					done();
+					if (err) {
+						callbackFun(DEFAULT_ERROR_MSG);
+					} else {
+						actuallyUpvote(user, link, count, callbackFun);
+					}
+				})
+			} else {
+				callbackFun("duplicate");
+			}
+		}
+	});
   });
 }
 

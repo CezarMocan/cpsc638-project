@@ -8,7 +8,10 @@ html
 		script(type='text/javascript',src='http://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.1/jquery.min.js')
 		script(type='text/javascript',src='http://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js')
 
-	body		
+	body
+			
+		p You are logged in as #{user}
+
 		div.page-title 
 			h3 #{pageTitle}
 			h5 #{pageDescription}
@@ -31,4 +34,4 @@ html
 				input(type='text' name='tags')
 			p
 			div.submit
-				input.submitButton(type='submit' value='Submit')
+				input.submitButton(type='submit' value='Submit')		

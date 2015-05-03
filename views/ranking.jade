@@ -25,16 +25,17 @@ html
 			-return time;
 		-}
 
+		p You are logged in as #{user}
 		div.page-title 
 			h3 #{pageTitle}
 			h5 #{pageDescription}
-			a(href="/top") top 
+			a(href="/user/#{user}top") top 
 			&nbsp;
-			a(href="/new") new 
+			a(href="/user/#{user}new") new 
 			&nbsp;
-			a(href="/trending") trending 
+			a(href="/user/#{user}trending") trending 
 			&nbsp;			
-			a(href="/submit") submit 
+			a(href="/user/#{user}submit") submit 
 			&nbsp;
 
 		table						
@@ -42,7 +43,7 @@ html
 				for link in ranking
 					tr.item 
 						td.upvote 
-							form(id="#{link.creation_date}" method="post" action="/upvote")
+							form(id="#{link.creation_date}" method="post" action="/user/#{user}/upvote")
 								input(type="hidden" name="currPage" value="#{currPage}")
 								input(type="hidden" name="link" value="#{link.link_id}")
 								a(href='javascript:{}' onclick="document.getElementById('#{link.creation_date}').submit();") +

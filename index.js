@@ -72,7 +72,7 @@ app.post('/registerPost', function(request, response) {
 });
 
 app.get('/user/:userId/submit', function(req, res) {
-	res.render('submit', {'pageTitle': 'Submit', 'pageDescription': 'Submit a new link!'});
+	res.render('submit', {'pageTitle': 'Submit', 'pageDescription': 'Submit a new link!', 'user': request.params.userId});
 });
 
 app.post('/submitPost', function (request, response) {  
@@ -99,12 +99,12 @@ app.get('/user/:userId/top', function (request, response) {
   if (isNullOrUndefined(tag)) {
     dbService.getTopLinksNoTag(resultsLimit, function(result) {
       console.log(result);
-      response.render('ranking', {'currPage': 'top', 'ranking': result, 'pageTitle': 'Top links', 'pageDescription': 'All-time top voted links'});
+      response.render('ranking', {'currPage': 'top', 'ranking': result, 'pageTitle': 'Top links', 'pageDescription': 'All-time top voted links', 'user':request.params.userId});
     });
   } else {
     dbService.getTopLinksWithTag(resultsLimit, tag, function(result) {
       console.log(result);
-      response.render('ranking', {'currPage': 'top', 'ranking': result, 'pageTitle': 'Top links', 'pageDescription': 'All-time top voted links'});
+      response.render('ranking', {'currPage': 'top', 'ranking': result, 'pageTitle': 'Top links', 'pageDescription': 'All-time top voted links', 'user':request.params.userId});
     });
   }
 })
@@ -117,27 +117,31 @@ app.get('/user/:userId/new', function (request, response) {
   if (isNullOrUndefined(tag)) {
     dbService.getNewLinksNoTag(createdAfter, resultsLimit, function(result) {
       console.log(result);
-      response.render('ranking', {'currPage': 'new', 'ranking': result, 'pageTitle': 'New links', 'pageDescription': 'Most recently submitted links'});
+      response.render('ranking', {'currPage': 'new', 'ranking': result, 'pageTitle': 'New links', 'pageDescription': 'Most recently submitted links', 'user':request.params.userId});
     });
   } else {
     dbService.getNewLinksWithTag(createdAfter, resultsLimit, tag, function(result) {
       console.log(result);
-      response.render('ranking', {'currPage': 'new', 'ranking': result, 'pageTitle': 'New links', 'pageDescription': 'Most recently submitted links'});
+      response.render('ranking', {'currPage': 'new', 'ranking': result, 'pageTitle': 'New links', 'pageDescription': 'Most recently submitted links', 'user':request.params.userId});
     });
   }
 })
 
-app.post('/upvote', function (request, response) {
+app.post('/user/:userId/upvote', function (request, response) {
   var link = request.body.link;
   var currPage = request.body.currPage;
   var count = 1;  
+  var user = request.params.userId;
 
   if (areNullOrUndefined([link, count, currPage])) {
     response.send(dbService.DEFAULT_ERROR_MSG);    
   }
 
-  dbService.upvote(link, count, function(result) {
-    response.redirect("/" + currPage);
+  dbService.upvote(user, link, count, function(result) {
+    if (result == 'duplicate')
+      response.render('duplicate', {'user':user});
+    else
+      response.redirect("/" + currPage);
   })
 })
 
