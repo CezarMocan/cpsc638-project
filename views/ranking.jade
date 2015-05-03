@@ -35,7 +35,8 @@ html
 						td.upvote 
 							a(href="/submit") +
 						td.usage-count #{link.usage_count}
-						td.link-id #{link.link_id}
+						td.link-id 
+							a(href="#{link.link_id}") #{link.link_id}
 					tr.created
 						td.empty
 						td.empty
