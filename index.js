@@ -72,7 +72,7 @@ app.post('/registerPost', function(request, response) {
 });
 
 app.get('/user/:userId/submit', function(req, res) {
-	res.render('submit', {'pageTitle': 'Submit', 'pageDescription': 'Submit a new link!', 'user': request.params.userId});
+	res.render('submit', {'pageTitle': 'Submit', 'pageDescription': 'Submit a new link!', 'user': req.params.userId});
 });
 
 app.post('/user/:userId/submitPost', function (request, response) {  
