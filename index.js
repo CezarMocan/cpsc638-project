@@ -42,7 +42,7 @@ app.post('/submitPost', function (request, response) {
     tags = [];
 
   dbService.addTextmoji(link, tags, function(result) {
-    response.render('index');
+    response.redirect('new');
   });
 })
 
