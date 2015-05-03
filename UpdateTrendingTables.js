@@ -6,14 +6,14 @@ function getTimestamp() {
 	return Math.floor(new Date() / 1000);
 }
 
-function getDay() {
-	return Math.floor(getTimestamp() / 60 / 60 / 24);
+function getHour() {
+	return Math.floor(getTimestamp() / 60 / 60);
 }
 
 function removeOldEntries(callbackFun) {
-	var day = getDay();
+	var hour = getHour();
   pg.connect(process.env.DATABASE_URL, function(err, client, done) {
-    client.query('DELETE FROM link_trending WHERE day<($1)', [day - 6], function(err, result) {    	
+    client.query('DELETE FROM link_trending WHERE hour<($1)', [hour - 6], function(err, result) {    	
     	done();
     	if (err) {
     		console.error("Error deleting week old entries from link_trending where " + err);
@@ -46,32 +46,32 @@ function emptyTrendingScoresTable(callbackFun) {
 	});
 }
 
-function recomputeTrendingScoresTable(today, currDay, stopDay) {
-	if (currDay === stopDay)
+function recomputeTrendingScoresTable(thisHour, currHour, stopHour) {
+	if (currHour === stopHour)
 		return;	
 
-	console.log(weight[today - currDay]);
+	console.log(weight[thisHour - currHour]);
 
   pg.connect(process.env.DATABASE_URL, function(err, client, done) {
-  	client.query('UPDATE link_trending_scores SET score=score+(i.daily_count*($1))' + 
-  									'FROM (SELECT link_id, daily_count FROM link_trending WHERE day=($2)) i ' + 
-  										'WHERE i.link_id = link_trending_scores.link_id', [weight[today - currDay], currDay], function(err, result) {
+  	client.query('UPDATE link_trending_scores SET score=score+(i.hourly_count*($1))' + 
+  									'FROM (SELECT link_id, hourly_count FROM link_trending WHERE day=($2)) i ' + 
+  										'WHERE i.link_id = link_trending_scores.link_id', [weight[thisHour - currHour], currHour], function(err, result) {
   		done();
   		if (err) {
   			console.error("Error moving all ze crepe to the trending_scores table" + err);
   		} else {
-  			recomputeTrendingScoresTable(today, currDay - 1, stopDay);
+  			recomputeTrendingScoresTable(thisHour, currHour - 1, stopHour);
   		}
   	});
   });
 }
 
-var today = getDay();
-var currDay = today;
-var stopDay = currDay - 7;
+var thisHour = getHour();
+var currHour = thisHour;
+var stopHour = currHour - 7;
 
 removeOldEntries(function() {
 	emptyTrendingScoresTable(function() {
-		recomputeTrendingScoresTable(today, currDay, stopDay)
+		recomputeTrendingScoresTable(thisHour, currHour, stopHour)
 	});
 });
