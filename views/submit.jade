@@ -9,7 +9,7 @@ html
 		script(type='text/javascript',src='http://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js')
 
 	body
-			
+
 		p You are logged in as #{user}
 
 		div.page-title 
@@ -24,7 +24,7 @@ html
 			a(href="/submit") submit 
 			&nbsp;
 
-		form.submitLinkForm(method='post' action='/submitPost')
+		form.submitLinkForm(method='post' action='/user/#{user}/submitPost')
 			div.link
 				label.linkLabel Link: 
 				input(type='text' name='link')

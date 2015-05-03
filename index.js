@@ -75,9 +75,10 @@ app.get('/user/:userId/submit', function(req, res) {
 	res.render('submit', {'pageTitle': 'Submit', 'pageDescription': 'Submit a new link!', 'user': request.params.userId});
 });
 
-app.post('/submitPost', function (request, response) {  
+app.post('/user/:userId/submitPost', function (request, response) {  
   var link = request.body.link;  
-  var tags = request.body.tags;  
+  var tags = request.body.tags;
+  var user = request.params.userId;  
 
   if (link.indexOf("http://") != 0 && link.indexOf("https://") != 0)
     link = "http://" + link;
@@ -88,7 +89,7 @@ app.post('/submitPost', function (request, response) {
     tags = [];
 
   dbService.addTextmoji(link, tags, function(result) {
-    response.redirect('new');
+    response.redirect('/user/' + user + '/new');
   });
 })
 
@@ -141,7 +142,7 @@ app.post('/user/:userId/upvote', function (request, response) {
     if (result == 'duplicate')
       response.render('duplicate', {'user':user});
     else
-      response.redirect("/" + currPage);
+      response.redirect("/user" + user + "/" + currPage);
   })
 })
 
