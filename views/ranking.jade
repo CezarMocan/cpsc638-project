@@ -10,7 +10,7 @@ html
 		script(type="text/javascript").
 			//- Taken from here: http://stackoverflow.com/questions/847185/convert-a-unix-timestamp-to-time-in-javascript
 			function timeConverter(UNIX_timestamp) {
-				var a = new Date(UNIX_timestamp*1000);
+				var a = new Date(parseInt(UNIX_timestamp) * 1000);
 				var months = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
 				var year = a.getFullYear();
 				var month = months[a.getMonth()];
@@ -38,4 +38,4 @@ html
 					tr.created
 						td.empty
 						td.empty
-						td.submitted Submitted on #{link.creation_date}
+						td.submitted Submitted on #{timeConverter(link.creation_date)}
