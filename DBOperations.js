@@ -98,6 +98,9 @@ function actuallyUpvote(user, link, count, callbackFun) {
 }
 
 function upvote(user, link, count, callbackFun) {
+  console.log(user);
+  console.log(link);
+
   pg.connect(process.env.DATABASE_URL, function(err, client, done) {
   	console.log(user);
   	console.log(link);

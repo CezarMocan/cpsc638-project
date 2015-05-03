@@ -134,6 +134,11 @@ app.post('/user/:userId/upvote', function (request, response) {
   var count = 1;  
   var user = request.params.userId;
 
+  console.log('router');
+  console.log(user);
+  console.log(link);
+  console.log('-----');
+
   if (areNullOrUndefined([link, count, currPage])) {
     response.send(dbService.DEFAULT_ERROR_MSG);    
   }
