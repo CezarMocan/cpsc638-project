@@ -36,7 +36,7 @@ app.get('/login', function(req, res) {
   res.render('login');
 });
 
-app.post('/loginPost', function(req, res) {
+app.post('/loginPost', function(request, response) {
   var user = request.body.user;  
   var pass = request.body.pass;  
 
@@ -53,7 +53,7 @@ app.post('/loginPost', function(req, res) {
 
 });
 
-app.post('/registerPost', function(req, res) {
+app.post('/registerPost', function(request, response) {
   var user = request.body.user;  
   var pass = request.body.pass;  
 
@@ -64,7 +64,7 @@ app.post('/registerPost', function(req, res) {
       if (result == dbService.DEFAULT_ERROR_MSG)
         response.send(dbService.DEFAULT_ERROR_MSG);    
       else 
-        response.redirect('/user/' + user + '/top')
+        response.redirect('/login')
     });
   }
 });
