@@ -51,7 +51,7 @@ app.get('/top', function (request, response) {
   if (isNullOrUndefined(tag)) {
     dbService.getTopLinksNoTag(resultsLimit, function(result) {
       console.log(result);
-      response.send(result);
+      response.render('ranking', {'ranking': result});
     });
   } else {
     dbService.getTopLinksWithTag(resultsLimit, tag, function(result) {
