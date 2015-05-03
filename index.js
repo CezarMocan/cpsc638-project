@@ -56,7 +56,7 @@ app.get('/top', function (request, response) {
   if (isNullOrUndefined(tag)) {
     dbService.getTopLinksNoTag(resultsLimit, function(result) {
       console.log(result);
-      response.render('ranking', {'ranking': result, 'pageTitle': 'Top links', 'pageDescription': 'All-time top voted links'});
+      response.render('ranking', {'currPage': 'new', 'ranking': result, 'pageTitle': 'Top links', 'pageDescription': 'All-time top voted links'});
     });
   } else {
     dbService.getTopLinksWithTag(resultsLimit, tag, function(result) {
@@ -74,7 +74,7 @@ app.get('/new', function (request, response) {
   if (isNullOrUndefined(tag)) {
     dbService.getNewLinksNoTag(createdAfter, resultsLimit, function(result) {
       console.log(result);
-      response.render('ranking', {'ranking': result, 'pageTitle': 'New links', 'pageDescription': 'Most recently submitted links'});
+      response.render('ranking', {'currPage': 'new', 'ranking': result, 'pageTitle': 'New links', 'pageDescription': 'Most recently submitted links'});
     });
   } else {
     dbService.getNewLinksWithTag(createdAfter, resultsLimit, tag, function(result) {
