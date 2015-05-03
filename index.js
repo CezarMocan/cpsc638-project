@@ -46,7 +46,9 @@ app.post('/loginPost', function(request, response) {
     dbService.checkUser(user, pass, function(result) {
       if (result == dbService.DEFAULT_ERROR_MSG)
         response.send(dbService.DEFAULT_ERROR_MSG);    
-      else 
+      else if (result == "fail")
+        response.send("Login failed!");
+      else
         response.redirect('/user/' + user + '/top')
     });
   }  
