@@ -10,6 +10,24 @@ html
 		
 		style(type="text/css"): include ranking.css
 
+		script(type="text/javascript").
+			function submitLink() {
+				$.ajax({
+					url: "/submitPost",
+					type: 'POST',
+					async: true,
+					dataType: 'json',					
+					data: {"link": document.getElementById("linkInput").value, "tags": [document.getElementById("tagInput").value]},
+					success: function(response) {
+						console.log(response);						
+					},
+					error: function(xhr) {
+						console.log("Error");
+					}
+				});      
+			}
+
+
 	body		
 		div.page-title 
 			h1 #{pageTitle}
