@@ -104,7 +104,7 @@ function upvote(user, link, count, callbackFun) {
   pg.connect(process.env.DATABASE_URL, function(err, client, done) {
   	console.log(user);
   	console.log(link);
-	client.query('SELECT user_id FROM user_upvotes WHERE used_id=($1) AND link_id=($2)', [user, link], function(err, result) {		
+	client.query('SELECT user_id FROM user_upvotes WHERE user_id=($1) AND link_id=($2)', [user, link], function(err, result) {		
 		if (err) {			
 			done();
 			console.error(err);
