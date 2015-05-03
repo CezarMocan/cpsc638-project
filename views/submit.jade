@@ -15,13 +15,13 @@ html
 		div.page-title 
 			h3 #{pageTitle}
 			h5 #{pageDescription}
-			a(href="/top") top 
+			a(href="/user/#{user}/top") top 
 			&nbsp;
-			a(href="/new") new 
+			a(href="/user/#{user}/new") new 
 			&nbsp;
-			a(href="/trending") trending 
+			a(href="/user/#{user}/trending") trending 
 			&nbsp;			
-			a(href="/submit") submit 
+			a(href="/user/#{user}/submit") submit 
 			&nbsp;
 
 		form.submitLinkForm(method='post' action='/user/#{user}/submitPost')
