@@ -124,6 +124,35 @@ function addTextmojiTags(emoji, tags, callbackFun) {
 
 }
 
+function addUser(user, pass, callbackFun) {
+  pg.connect(process.env.DATABASE_URL, function(err, client, done) {
+    client.query('INSERT INTO users VALUES($1, $2)', [user, pass], function(err, result) {      
+    	done();
+      if (err) {         
+        console.error(err); 
+        callbackFun(DEFAULT_ERROR_MSG); 
+      } else {
+      	addTextmojiTags(emoji, tags, callbackFun);
+        //callbackFun('Great success! ' + emoji);
+      }
+    });
+  });  	
+}
+
+function checkUser(user, pass, callbackFun) {
+	pg.connect(process.env.DATABASE_URL, function(err, client, done) {
+		client.query('SELECT user FROM users WHERE user=($1) AND pass=($2)', [user, pass], function(err, result) {
+			done();
+			if (err) {
+				console.error(err);
+				callbackFun(DEFAULT_ERROR_MSG);
+			} else {
+				callbackFun(result.rows);
+			}
+		});
+	});
+}
+
 function addTextmoji(emoji, tags, callbackFun) {
 	var timestamp = getTimestamp();
   pg.connect(process.env.DATABASE_URL, function(err, client, done) {

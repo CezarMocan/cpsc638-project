@@ -10,25 +10,18 @@ html
 
 	body		
 		div.page-title 
-			h3 #{pageTitle}
-			h5 #{pageDescription}
-			a(href="/top") top 
-			&nbsp;
-			a(href="/new") new 
-			&nbsp;
-			a(href="/trending") trending 
-			&nbsp;			
-			a(href="/submit") submit 
-			&nbsp;
+			h3 Login
 
-		form.submitLinkForm(method='post' action='/submitPost')
-			div.link
-				label.linkLabel Link: 
-				input(type='text' name='link')
+		form.submitLinkForm(method='post' action='/loginPost')
+			div.user
+				label.linkLabel Username: 
+				input(type='text' name='user')
 			p
 			div.tag
-				label.linkTag Category: 
-				input(type='text' name='tags')
+				label.linkTag Password: 
+				input(type='password' name='pass')
 			p
 			div.submit
 				input.submitButton(type='submit' value='Submit')
+
+			a(href="/register") New on the website? Register here!

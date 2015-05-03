@@ -11,6 +11,7 @@ app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'jade'); // use either jade or ejs       
 // instruct express to server up static assets
 app.use(express.static(__dirname + '/public'));
+app.use(cookieParser());
 
 // Set server port
 app.set('port', (process.env.PORT || 5000));
@@ -25,10 +26,51 @@ var pg = require('pg');
 var dbService = require('./DBOperations.js');
 
 app.get('/', function(req, res) {
-  res.redirect('/top');
+  res.redirect('/login');
 });
 
-app.get('/submit', function(req, res) {
+app.get('/register', function(req, res) {
+  res.render('register');
+});
+
+app.get('/login', function(req, res) {
+  res.render('login');
+});
+
+app.post('/loginPost', function(req, res) {
+  var user = request.body.user;  
+  var pass = request.body.pass;  
+
+  if (areNullOrUndefined([user, pass])) {
+    response.send(dbService.DEFAULT_ERROR_MSG);    
+  } else {
+    dbService.checkUser(user, pass, function(result) {
+      if (result == dbService.DEFAULT_ERROR_MSG)
+        response.send(dbService.DEFAULT_ERROR_MSG);    
+      else 
+        response.redirect('/user/' + user + '/top')
+    });
+  }  
+
+});
+
+app.post('/registerPost', function(req, res) {
+  var user = request.body.user;  
+  var pass = request.body.pass;  
+
+  if (areNullOrUndefined([user, pass])) {
+    response.send(dbService.DEFAULT_ERROR_MSG);    
+  } else {
+    dbService.addUser(user, pass, function(result) {
+      if (result == dbService.DEFAULT_ERROR_MSG)
+        response.send(dbService.DEFAULT_ERROR_MSG);    
+      else 
+        response.redirect('/user/' + user + '/top')
+    });
+  }
+});
+
+app.get('/user/:userId/submit', function(req, res) {
 	res.render('submit', {'pageTitle': 'Submit', 'pageDescription': 'Submit a new link!'});
 });
 
@@ -49,7 +91,7 @@ app.post('/submitPost', function (request, response) {
   });
 })
 
-app.get('/top', function (request, response) {
+app.get('/user/:userId/top', function (request, response) {
   var tag = request.query.tag;
   var resultsLimit = 100;
 
@@ -66,7 +108,7 @@ app.get('/top', function (request, response) {
   }
 })
 
-app.get('/new', function (request, response) {
+app.get('/user/:userId/new', function (request, response) {
   var tag = request.query.tag;
   var resultsLimit = 100;
   var createdAfter = (parseInt(dbService.getTimestamp()) - parseInt(NEW_LINKS_PERIOD_SECONDS));
