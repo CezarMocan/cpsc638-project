@@ -142,7 +142,7 @@ app.post('/user/:userId/upvote', function (request, response) {
     if (result == 'duplicate')
       response.render('duplicate', {'user':user});
     else
-      response.redirect("/user" + user + "/" + currPage);
+      response.redirect("/user/" + user + "/" + currPage);
   })
 })
 
