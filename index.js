@@ -29,7 +29,7 @@ app.get('/', function(req, res) {
 });
 
 app.get('/submit', function(req, res) {
-	res.render('submit');
+	res.render('submit', {'pageTitle': 'Submit', 'pageDescription': 'Submit a new link!'});
 });
 
 app.post('/submitPost', function (request, response) {  
