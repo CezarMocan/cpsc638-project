@@ -9,5 +9,10 @@ html
 		script(type='text/javascript',src='http://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js')
 
 	body		
+		tbody.
 		for link in ranking
-			p #{link.link_id}
+			tr.item 
+				td.upvote 
+					a(href="/submit") +
+				td.usage-count #{link.usage_count}
+				td.link-id #{link.link_id}
