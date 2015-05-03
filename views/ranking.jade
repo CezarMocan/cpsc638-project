@@ -7,24 +7,24 @@ html
 		script(type='text/javascript',src='http://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.1/jquery.min.js')
 		script(type='text/javascript',src='http://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js')		
 		style(type="text/css"): include ranking.css
-		script(type="text/javascript").
-			//- Taken from here: http://stackoverflow.com/questions/847185/convert-a-unix-timestamp-to-time-in-javascript
-			function timeConverter(UNIX_timestamp) {
-				console.log(UNIX_timestamp);
-				var a = new Date(parseInt(UNIX_timestamp) * 1000);
-				console.log(a);
-				var months = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
-				var year = a.getFullYear();
-				var month = months[a.getMonth()];
-				var date = a.getDate();
-				var hour = a.getHours();
-				var min = a.getMinutes();
-				var sec = a.getSeconds();
-				var time = date + ',' + month + ' ' + year + ' ' + hour + ':' + min + ':' + sec ;
-				return time;
-			}
 
 	body		
+
+		-function timeConverter(UNIX_timestamp) {
+			-console.log(UNIX_timestamp);
+			-var a = new Date(parseInt(UNIX_timestamp) * 1000);
+			-console.log(a);
+			-var months = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+			-var year = a.getFullYear();
+			-var month = months[a.getMonth()];
+			-var date = a.getDate();
+			-var hour = a.getHours();
+			-var min = a.getMinutes();
+			-var sec = a.getSeconds();
+			-var time = date + ',' + month + ' ' + year + ' ' + hour + ':' + min + ':' + sec ;
+			-return time;
+		-}
+
 		div.page-title 
 			h1 #{pageTitle}
 		table						
