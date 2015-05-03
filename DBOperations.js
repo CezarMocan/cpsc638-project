@@ -34,16 +34,13 @@ function getDay() {
 	return Math.floor(getTimestamp() / 60 / 60 / 24);
 }
 
-function increaseSingleTextmojiCount(emoji, count, callbackFun) {
+function upvote(link, count, callbackFun) {
   var timestamp = getTimestamp();
   // Day since epoch
   var day = getDay();
 
-  console.log("Day is " + day);
-//  selectFromWhere('usage_count', 'emoji_submission', {'emoji_id': emoji}, updateEmojiSubmission, callbackFun);
-
   pg.connect(process.env.DATABASE_URL, function(err, client, done) {
-    client.query('SELECT usage_count FROM emoji_submission WHERE emoji_id=($1)', [emoji], function(err, result) {
+    client.query('SELECT usage_count FROM link_submission WHERE link_id=($1)', [link], function(err, result) {
       if (err) { 
         done();
         console.error(err); 
@@ -56,13 +53,13 @@ function increaseSingleTextmojiCount(emoji, count, callbackFun) {
 	        console.log('Result rows[0]: ' + result.rows[0]);
 
 	        var newCount = parseInt(result.rows[0].usage_count) + parseInt(count); 
-	        client.query('UPDATE emoji_submission SET usage_count=($1) WHERE emoji_id=($2)', [newCount, emoji], function(err, result) {          
+	        client.query('UPDATE link_submission SET usage_count=($1) WHERE link_id=($2)', [newCount, link], function(err, result) {          
 	          if (err) {
 	            done();
 	            console.error(err); 
 	            callbackFun(DEFAULT_ERROR_MSG);
 	          } else {
-	            client.query('SELECT daily_count FROM emoji_trending WHERE emoji_id = ($1) AND day = ($2)', [emoji, day], function(err, result) {          
+	            client.query('SELECT daily_count FROM link_trending WHERE link_id = ($1) AND day = ($2)', [link, day], function(err, result) {          
 	              if (err) { 
 	                done();
 	                console.error(err); 
@@ -71,10 +68,10 @@ function increaseSingleTextmojiCount(emoji, count, callbackFun) {
 	              else { 
 	                if (result.rows.length == 0) {
 	                  // New entry in table
-	                  client.query('INSERT INTO emoji_trending VALUES ($1, $2, $3)', [emoji, day, count], function(err, result) {
+	                  client.query('INSERT INTO link_trending VALUES ($1, $2, $3)', [link, day, count], function(err, result) {
 	                    done();
 	                    if (err) {
-	                    	console.error("Insert into emoji_trending " + err);
+	                    	console.error("Insert into link_trending " + err);
 	                    	callbackFun(DEFAULT_ERROR_MSG);
 	                    }
 	                    else callbackFun(DEFAULT_SUCCESS_MSG);
@@ -82,10 +79,10 @@ function increaseSingleTextmojiCount(emoji, count, callbackFun) {
 	                } else {
 	                  var newDailyCount = parseInt(result.rows[0].daily_count) + parseInt(count);
 	                  // Update old entry in table
-	                  client.query('UPDATE emoji_trending SET daily_count=($1) WHERE emoji_id=($2) AND day=($3)', [newDailyCount, emoji, day], function(err, result) {
+	                  client.query('UPDATE link_trending SET daily_count=($1) WHERE link_id=($2) AND day=($3)', [newDailyCount, link, day], function(err, result) {
 	                    done();
 	                    if (err) {
-	                    	console.error("Update emoji_trending " + err);
+	                    	console.error("Update link_trending " + err);
 	                    	callbackFun(DEFAULT_ERROR_MSG);
 	                    }
 	                    else callbackFun(DEFAULT_SUCCESS_MSG);
@@ -100,26 +97,6 @@ function increaseSingleTextmojiCount(emoji, count, callbackFun) {
     });
   });
 }
-
-function increaseMultipleTextmojiCount(emojiArray, callbackFun) {
-  var successCount = 0; 
-  var errorCount = 0;
-  console.log(emojiArray);
-  for (var index = 0; index < emojiArray.length; index++) {
-    var emoji = emojiArray[index].emoji;
-    var count = emojiArray[index].count;
-    increaseSingleTextmojiCount(emoji, count, function(result) {
-      if (result == DEFAULT_ERROR_MSG)  errorCount++;
-      else  successCount++;
-      
-      if (successCount + errorCount == emojiArray.length) {
-        callbackFun(JSON.stringify({success: successCount, error: errorCount}));
-      }      
-    });
-  }  
-}
-
-
 
 function addTextmojiTags(emoji, tags, callbackFun) {
 	// Build query string
@@ -257,6 +234,6 @@ exports.getTrendingEmojisNoTag = getTrendingEmojisNoTag;
 exports.getTrendingEmojisWithTag = getTrendingEmojisWithTag;
 exports.getNewLinksNoTag = getNewLinksNoTag;
 exports.getNewLinksWithTag = getNewLinksWithTag;
-exports.increaseSingleTextmojiCount = increaseSingleTextmojiCount;
+exports.upvote = upvote;
 exports.increaseMultipleTextmojiCount = increaseMultipleTextmojiCount;
 

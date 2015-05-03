@@ -61,7 +61,7 @@ app.get('/top', function (request, response) {
   } else {
     dbService.getTopLinksWithTag(resultsLimit, tag, function(result) {
       console.log(result);
-      response.render('ranking', {'ranking': result, 'pageTitle': 'Top links', 'pageDescription': 'All-time top voted links'});
+      response.render('ranking', {'currPage': 'top', 'ranking': result, 'pageTitle': 'Top links', 'pageDescription': 'All-time top voted links'});
     });
   }
 })
@@ -79,10 +79,25 @@ app.get('/new', function (request, response) {
   } else {
     dbService.getNewLinksWithTag(createdAfter, resultsLimit, tag, function(result) {
       console.log(result);
-      response.render('ranking', {'ranking': result, 'pageTitle': 'New links', 'pageDescription': 'Most recently submitted links'});
+      response.render('ranking', {'currPage': 'new', 'ranking': result, 'pageTitle': 'New links', 'pageDescription': 'Most recently submitted links'});
     });
   }
 })
+
+app.post('/upvote', function (request, response) {
+  var link = request.body.link;
+  var currPage = request.body.currPage;
+  var count = 1;  
+
+  if (areNullOrUndefined([emoji, count, currPage])) {
+    response.send(dbService.DEFAULT_ERROR_MSG);    
+  }
+
+  dbService.upvote(emoji, count, function(result) {
+    response.redirect("/" + currPage);
+  })
+})
+
 
 function areNullOrUndefined(objs) {
   for (var i = 0; i < objs.length; i++)
