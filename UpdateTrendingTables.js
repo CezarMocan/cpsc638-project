@@ -54,7 +54,7 @@ function recomputeTrendingScoresTable(thisHour, currHour, stopHour) {
 
   pg.connect(process.env.DATABASE_URL, function(err, client, done) {
   	client.query('UPDATE link_trending_scores SET score=score+(i.hourly_count*($1))' + 
-  									'FROM (SELECT link_id, hourly_count FROM link_trending WHERE day=($2)) i ' + 
+  									'FROM (SELECT link_id, hourly_count FROM link_trending WHERE hour=($2)) i ' + 
   										'WHERE i.link_id = link_trending_scores.link_id', [weight[thisHour - currHour], currHour], function(err, result) {
   		done();
   		if (err) {
