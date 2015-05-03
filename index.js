@@ -4,6 +4,8 @@ var app = express();
 var path = require('path');
 var bodyParser  = require('body-parser');
 
+var NEW_LINKS_PERIOD_SECONDS = 2 * 60 * 60; // 2 hours
+
 // views as directory for all template files
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'jade'); // use either jade or ejs       
@@ -51,12 +53,30 @@ app.get('/top', function (request, response) {
   if (isNullOrUndefined(tag)) {
     dbService.getTopLinksNoTag(resultsLimit, function(result) {
       console.log(result);
-      response.render('ranking', {'ranking': result});
+      response.render('ranking', {'ranking': result, 'pageTitle': 'Top links'});
     });
   } else {
     dbService.getTopLinksWithTag(resultsLimit, tag, function(result) {
       console.log(result);
-      response.send(result);
+      response.render('ranking', {'ranking': result, 'pageTitle': 'Top links'});
+    });
+  }
+})
+
+app.get('/new', function (request, response) {
+  var tag = request.query.tag;
+  var resultsLimit = 100;
+  var createdAfter = (parseInt(dbService.getTimestamp()) - parseInt(NEW_LINKS_PERIOD_SECONDS));
+
+  if (isNullOrUndefined(tag)) {
+    dbService.getNewLinksNoTag(createdAfter, resultsLimit, function(result) {
+      console.log(result);
+      response.render('ranking', {'ranking': result, 'pageTitle': 'New links'});
+    });
+  } else {
+    dbService.getNewLinksWithTag(createdAfter, resultsLimit, tag, function(result) {
+      console.log(result);
+      response.render('ranking', {'ranking': result, 'pageTitle': 'New links'});
     });
   }
 })

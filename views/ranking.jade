@@ -9,9 +9,9 @@ html
 		style(type="text/css"): include ranking.css
 
 	body		
-		table
-			thead
-				p Top links
+		div.page-title 
+			h1 #{pageTitle}
+		table						
 			tbody
 				for link in ranking
 					tr.item 
