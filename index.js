@@ -89,11 +89,11 @@ app.post('/upvote', function (request, response) {
   var currPage = request.body.currPage;
   var count = 1;  
 
-  if (areNullOrUndefined([emoji, count, currPage])) {
+  if (areNullOrUndefined([link, count, currPage])) {
     response.send(dbService.DEFAULT_ERROR_MSG);    
   }
 
-  dbService.upvote(emoji, count, function(result) {
+  dbService.upvote(link, count, function(result) {
     response.redirect("/" + currPage);
   })
 })
