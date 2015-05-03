@@ -140,9 +140,11 @@ function addUser(user, pass, callbackFun) {
 
 function checkUser(user, pass, callbackFun) {
 	pg.connect(process.env.DATABASE_URL, function(err, client, done) {
+		console.log(user);
+		console.log(pass);
 		client.query('SELECT user FROM users WHERE user=($1) AND pass=($2)', [user, pass], function(err, result) {
 			done();
-			//console.log(result.rows);
+			console.log(result.rows);
 			if (err) {				
 				callbackFun(DEFAULT_ERROR_MSG);
 			} else if (result.rows.length == 0) {
