@@ -23,7 +23,7 @@ var pg = require('pg');
 var dbService = require('./DBOperations.js');
 
 app.get('/', function(req, res) {
-  app.redirect('/top');
+  res.redirect('/top');
 });
 
 app.get('/submit', function(req, res) {
