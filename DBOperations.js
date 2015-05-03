@@ -99,12 +99,15 @@ function actuallyUpvote(user, link, count, callbackFun) {
 
 function upvote(user, link, count, callbackFun) {
   pg.connect(process.env.DATABASE_URL, function(err, client, done) {
+  	console.log(user);
+  	console.log(link);
 	client.query('SELECT user_id FROM user_upvotes WHERE used_id=($1) AND link_id=($2)', [user, link], function(err, result) {		
 		if (err) {			
 			done();
 			console.error(err);
 			callbackFun(DEFAULT_ERROR_MSG);
 		} else {
+			console.log(result.rows);
 			if (result.rows.length == 0) {
 				client.query('INSERT INTO user_upvotes VALUES ($1, $2)', [user, link], function(err, result) {
 					done();
