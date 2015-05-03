@@ -235,5 +235,4 @@ exports.getTrendingEmojisWithTag = getTrendingEmojisWithTag;
 exports.getNewLinksNoTag = getNewLinksNoTag;
 exports.getNewLinksWithTag = getNewLinksWithTag;
 exports.upvote = upvote;
-exports.increaseMultipleTextmojiCount = increaseMultipleTextmojiCount;
 
