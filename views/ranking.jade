@@ -7,20 +7,6 @@ html
 		script(type='text/javascript',src='http://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.1/jquery.min.js')
 		script(type='text/javascript',src='http://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js')		
 
-		script(type="text/javascript").
-			// Taken from here: http://stackoverflow.com/questions/847185/convert-a-unix-timestamp-to-time-in-javascript
-			function timeConverter(UNIX_timestamp) {
-				var a = new Date(UNIX_timestamp*1000);
-				var months = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
-				var year = a.getFullYear();
-				var month = months[a.getMonth()];
-				var date = a.getDate();
-				var hour = a.getHours();
-				var min = a.getMinutes();
-				var sec = a.getSeconds();
-				var time = date + ',' + month + ' ' + year + ' ' + hour + ':' + min + ':' + sec ;
-				return time;
-			}
 
 		style(type="text/css"): include ranking.css
 
@@ -38,4 +24,4 @@ html
 					tr.created
 						td.empty
 						td.empty
-						td.submitted Submitted on #{timeConverter(link.creation_date)}
+						td.submitted Submitted on #{link.creation_date}
