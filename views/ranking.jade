@@ -43,10 +43,10 @@ html
 				for link in ranking
 					tr.item 
 						td.upvote 
-							form(id="#{link.creation_date}" method="post" action="/user/#{user}/upvote")
+							form(id="#{link.creation_date}" class="upvote-form" method="post" action="/user/#{user}/upvote")
 								input(type="hidden" name="currPage" value="#{currPage}")
 								input(type="hidden" name="link" value="#{link.link_id}")
-								a(href='javascript:{}' onclick="document.getElementById('#{link.creation_date}').submit();") +
+								a(href='javascript:{}' onclick="document.getElementById('#{link.creation_date}').submit();") ▲
 						td.usage-count #{link.usage_count}
 						td.link-id 
 							a(href="#{link.link_id}") #{link.link_id}
