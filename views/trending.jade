@@ -11,6 +11,21 @@ html
 
 	body		
 
+		-function timeConverter(UNIX_timestamp) {
+			-console.log(UNIX_timestamp);
+			-var a = new Date(parseInt(UNIX_timestamp) * 1000);
+			-console.log(a);
+			-var months = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+			-var year = a.getFullYear();
+			-var month = months[a.getMonth()];
+			-var date = a.getDate();
+			-var hour = ('0' + a.getHours()).slice(-2);
+			-var min = ('0' + a.getMinutes()).slice(-2);
+			-var sec = ('0' + a.getSeconds()).slice(-2);
+			-var time = month + ' ' + date + ', ' + year + ' ' + hour + ':' + min + ':' + sec ;
+			-return time;
+		-}
+
 		p You are logged in as #{user}
 		div.page-title 
 			h3 #{pageTitle}
