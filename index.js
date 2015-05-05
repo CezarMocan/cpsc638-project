@@ -72,9 +72,9 @@ app.post('/registerPost', function(request, response) {
   }
 });
 
-app.get('/runUpdateTrendingJob', function(req, res)) {
+app.get('/runUpdateTrendingJob', function(req, res) {
 	trendingService.runUpdateJob();
-}
+});
 
 app.get('/user/:userId/submit', function(req, res) {
 	res.render('submit', {'pageTitle': 'Submit', 'pageDescription': 'Submit a new link!', 'user': req.params.userId});
