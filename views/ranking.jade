@@ -41,10 +41,14 @@ html
 
 		form.filter(id="filterForm" method="get" action="/user/#{user}/#{currPage}")
 			label
-				h5 Filter by tag: &nbsp;
-			input(type="text" name="tag" id="tagInput" placeholder="tag") &nbsp;
-			input.filterButton(type='submit' value='Filter!') &nbsp;
-			a(href="/user/#{user}/#{currPage}") Clear filter &nbsp;
+				h5 Filter by tag: 
+			&nbsp;
+			input(type="text" name="tag" id="tagInput" placeholder="tag") 
+			&nbsp;
+			input.filterButton(type='submit' value='Filter!') 
+			&nbsp;
+			a(href="/user/#{user}/#{currPage}") Clear filter 
+			&nbsp;
 
 		table.ranking						
 			tbody
