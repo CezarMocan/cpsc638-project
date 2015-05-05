@@ -79,7 +79,7 @@ app.get('/user/:userId/runUpdateTrendingJob', function(req, res) {
 
 app.get('/user/:userId/getAllTags', function(req, res) {
 	dbService.getAllTags(function(result) {
-		response.render('tags', {'currPage': 'All tags', 'tags': result, 'pageTitle': 'Top links', 'pageDescription': 'All-time top voted links', 'user':request.params.userId}))
+		response.render('tags', {'currPage': 'All tags', 'tags': result, 'pageTitle': 'Top links', 'pageDescription': 'All-time top voted links', 'user':request.params.userId});
 	});
 });
 
