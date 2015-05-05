@@ -278,7 +278,7 @@ function getNewLinksWithTag(createdAfter, resultsLimit, tag, callbackFun) {
 
 function getAllTags(callbackFun) {
 	pg.connect(process.env.DATABASE_URL, function(err, client, done) {
-		client.query('SELECT tag FROM link_tag', [resultsLimit], function(err, result) {
+		client.query('SELECT DISTINCT tag FROM link_tag', [resultsLimit], function(err, result) {
 			done();
 			if (err) {
 				console.error(err);
