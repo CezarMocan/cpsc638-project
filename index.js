@@ -85,7 +85,7 @@ app.post('/user/:userId/submitPost', function (request, response) {
 
   if (isNullOrUndefined(link))
     response.send(dbService.DEFAULT_ERROR_MSG);
-  if (isNullOrUndefined(tags))
+  if (isNullOrUndefined(tagsString))
     tags = [];
   else {
 	tags = tagsString.split(", ");
