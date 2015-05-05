@@ -5,3 +5,15 @@ td {
 form.upvote-form {
 	margin-bottom: 0px;
 }
+
+table.ranking {
+	margin-top: 50px;
+}
+
+td.upvote {
+	padding-right: 5px;	
+}
+
+td.usage-count {
+	padding-left: 5px;
+}
