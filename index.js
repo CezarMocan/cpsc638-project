@@ -74,6 +74,7 @@ app.post('/registerPost', function(request, response) {
 
 app.get('/runUpdateTrendingJob', function(req, res) {
 	trendingService.runUpdateJob();
+	res.send('Trending job running, should be done in less than 2 seconds');
 });
 
 app.get('/user/:userId/submit', function(req, res) {
