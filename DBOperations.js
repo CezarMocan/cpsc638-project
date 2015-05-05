@@ -276,6 +276,20 @@ function getNewLinksWithTag(createdAfter, resultsLimit, tag, callbackFun) {
 	});
 }
 
+function getAllTags(callbackFun) {
+	pg.connect(process.env.DATABASE_URL, function(err, client, done) {
+		client.query('SELECT tag FROM link_tag', [resultsLimit], function(err, result) {
+			done();
+			if (err) {
+				console.error(err);
+				callbackFun(DEFAULT_ERROR_MSG);
+			} else {
+				callbackFun(result.rows);
+			}
+		});
+	});
+}
+
 
 exports.addUser = addUser;
 exports.checkUser = checkUser;
@@ -288,4 +302,5 @@ exports.getTrendingLinksWithTag = getTrendingLinksWithTag;
 exports.getNewLinksNoTag = getNewLinksNoTag;
 exports.getNewLinksWithTag = getNewLinksWithTag;
 exports.upvote = upvote;
+exports.getAllTags = getAllTags;
 

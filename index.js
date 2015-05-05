@@ -72,9 +72,15 @@ app.post('/registerPost', function(request, response) {
   }
 });
 
-app.get('/runUpdateTrendingJob', function(req, res) {
+app.get('/user/:userId/runUpdateTrendingJob', function(req, res) {
 	trendingService.runUpdateJob();
 	res.render('jobrun', {'pageTitle': 'Job running!', 'pageDescription': 'Should be done in less than 2 seconds!', 'user': req.params.userId});
+});
+
+app.get('/user/:userId/getAllTags', function(req, res) {
+	dbService.getAllTags(function(result) {
+		response.render('tags', {'currPage': 'All tags', 'tags': result, 'pageTitle': 'Top links', 'pageDescription': 'All-time top voted links', 'user':request.params.userId}))
+	});
 });
 
 app.get('/user/:userId/submit', function(req, res) {
