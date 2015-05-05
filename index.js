@@ -80,6 +80,8 @@ app.post('/user/:userId/submitPost', function (request, response) {
   var tags = request.body.tags;
   var user = request.params.userId;  
 
+  console.log(tags);
+
   if (link.indexOf("http://") != 0 && link.indexOf("https://") != 0)
     link = "http://" + link;
 
