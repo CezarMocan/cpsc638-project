@@ -18,3 +18,13 @@ td.upvote {
 td.usage-count {
 	padding-left: 0px;
 }
+
+td.empty {
+	padding-top: 0px;
+	padding-bottom: 0px;
+}
+
+td.submitted {
+	padding-top: 0px;
+	padding-bottom: 0px;	
+}
