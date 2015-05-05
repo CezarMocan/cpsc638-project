@@ -41,6 +41,13 @@ html
 			&nbsp; &nbsp; &nbsp; &nbsp; 
 			a(href="/runUpdateTrendingJob") !!! Run job for updating trending tables !!!
 
+		form.filter(id="filterForm" method="get" action="/user/#{user}/#{currPage}")
+			label
+				h5 Filter by tag: &nbsp;
+			input(type="text" name="tag" id="tagInput" placeholder="tag")
+			input.filterButton(type='submit' value='Filter!')
+
+
 		table						
 			tbody
 				for link in ranking

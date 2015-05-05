@@ -39,6 +39,12 @@ html
 			a(href="/user/#{user}/submit") submit 
 			&nbsp;
 
+		form.filter(id="filterForm" method="get" action="/user/#{user}/#{currPage}")
+			label
+				h5 Filter by tag: &nbsp;
+			input(type="text" name="tag" id="tagInput" placeholder="tag")
+			input.filterButton(type='submit' value='Filter!')
+
 		table.ranking						
 			tbody
 				for link in ranking
