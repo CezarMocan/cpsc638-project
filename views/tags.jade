@@ -24,6 +24,7 @@ html
 			a(href="/user/#{user}/submit") submit 
 			&nbsp;
 
-			for tag in tags
-				p 
-					a(href="/user/#{user}/top?tag=#{tag.tag}") #{tag.tag}
+			div.tag-list
+				for tag in tags
+					p 
+						a(href="/user/#{user}/top?tag=#{tag.tag}") #{tag.tag}
