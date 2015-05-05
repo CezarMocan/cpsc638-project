@@ -77,10 +77,8 @@ app.get('/user/:userId/submit', function(req, res) {
 
 app.post('/user/:userId/submitPost', function (request, response) {  
   var link = request.body.link;  
-  var tags = request.body.tags;
+  var tagsString = request.body.tags;
   var user = request.params.userId;  
-
-  console.log(tags);
 
   if (link.indexOf("http://") != 0 && link.indexOf("https://") != 0)
     link = "http://" + link;
@@ -89,6 +87,11 @@ app.post('/user/:userId/submitPost', function (request, response) {
     response.send(dbService.DEFAULT_ERROR_MSG);
   if (isNullOrUndefined(tags))
     tags = [];
+  else {
+	tags = tagsString.split(", ");
+	console.log(tags);
+  }
+
 
   dbService.addLink(link, tags, function(result) {
     response.redirect('/user/' + user + '/new');
