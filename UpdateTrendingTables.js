@@ -16,7 +16,7 @@ function removeOldEntries(callbackFun) {
     client.query('DELETE FROM link_trending WHERE hour<($1)', [hour - 6], function(err, result) {    	
     	done();
     	if (err) {
-    		console.error("Error deleting week old entries from link_trending where " + err);
+    		console.error("Error deleting old entries from link_trending where " + err);
     	} else {
     		callbackFun();
     	}
