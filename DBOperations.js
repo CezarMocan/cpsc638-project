@@ -222,7 +222,7 @@ function getTopLinksWithTag(resultsLimit, tag, callbackFun) {
 
 function getTrendingLinksNoTag(resultsLimit, callbackFun) {
 	pg.connect(process.env.DATABASE_URL, function(err, client, done) {
-		client.query('SELECT link_id, score FROM link_trending_scores ORDER BY score DESC LIMIT ($1)', [resultsLimit], function(err, result) {
+		client.query('SELECT link_submission.link_id, creation_date, usage_count, score FROM link_trending_scores, link_submission WHERE link_submission.link_id = link_trending_scores.link_id ORDER BY score DESC LIMIT ($1)', [resultsLimit], function(err, result) {
 			done();
 			if (err) {
 				console.error(err);
@@ -250,7 +250,6 @@ function getTrendingLinksWithTag(resultsLimit, tag, callbackFun) {
 
 function getNewLinksNoTag(createdAfter, resultsLimit, callbackFun) {
 	pg.connect(process.env.DATABASE_URL, function(err, client, done) {
-		console.log("Created after: " + createdAfter);
 		client.query('SELECT link_id, usage_count, creation_date FROM link_submission ORDER BY creation_date DESC LIMIT ($1)', [resultsLimit], function(err, result) {
 			done();
 			if (err) {

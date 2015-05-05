@@ -89,7 +89,6 @@ app.post('/user/:userId/submitPost', function (request, response) {
     tags = [];
   else {
 	tags = tagsString.split(", ");
-	console.log(tags);
   }
 
 
