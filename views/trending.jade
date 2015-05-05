@@ -38,3 +38,9 @@ html
 							h6 Trending score: #{link.score}
 						td.link-id 
 							a(href="#{link.link_id}") #{link.link_id}
+					tr.created
+						td.empty
+						td.empty
+						td.empty
+						td.submitted 
+							h6 Submitted on #{timeConverter(link.creation_date)}

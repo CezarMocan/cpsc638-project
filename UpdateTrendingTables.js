@@ -66,12 +66,18 @@ function recomputeTrendingScoresTable(thisHour, currHour, stopHour) {
   });
 }
 
-var thisHour = getHour();
-var currHour = thisHour;
-var stopHour = currHour - 7;
+function runUpdateJob() {
+  var thisHour = getHour();
+  var currHour = thisHour;
+  var stopHour = currHour - 7;
 
-removeOldEntries(function() {
-	emptyTrendingScoresTable(function() {
-		recomputeTrendingScoresTable(thisHour, currHour, stopHour)
-	});
-});
+  removeOldEntries(function() {
+    emptyTrendingScoresTable(function() {
+      recomputeTrendingScoresTable(thisHour, currHour, stopHour)
+    });
+  });  
+}
+
+runUpdateJob();
+
+exports.runUpdateJob = runUpdateJob;

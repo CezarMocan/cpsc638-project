@@ -23,6 +23,7 @@ app.listen(app.get('port'), function() {
 
 var pg = require('pg');
 var dbService = require('./DBOperations.js');
+var trendingService = require('./UpdateTrendingTables.js');
 
 app.get('/', function(req, res) {
   res.redirect('/login');
@@ -70,6 +71,10 @@ app.post('/registerPost', function(request, response) {
     });
   }
 });
+
+app.get('/runUpdateTrendingJob', function(req, res)) {
+	trendingService.runUpdateJob();
+}
 
 app.get('/user/:userId/submit', function(req, res) {
 	res.render('submit', {'pageTitle': 'Submit', 'pageDescription': 'Submit a new link!', 'user': req.params.userId});
