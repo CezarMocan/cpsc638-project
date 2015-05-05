@@ -25,4 +25,5 @@ html
 			&nbsp;
 
 			for tag in tags
-				p #{tag.tag}
+				p 
+					a(href="/user/#{user}/top?tag=#{tag.tag}") #{tag.tag}
